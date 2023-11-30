@@ -15,10 +15,6 @@ func (h *Human) SayHi() {
 	fmt.Printf("Hi, my name is %s\n", h.name)
 }
 
-func (h *Human) Walk() {
-	fmt.Println("I'm walking")
-}
-
 func main() {
 	h := Human{
 		name: "John",
