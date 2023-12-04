@@ -1,13 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
-func binarySearch(arr []int, target int) int {
+func binarySearch(arr []int, target int) (int, bool) {
 	low, high := 0, len(arr)-1
 	for low <= high {
 		mid := low + (high-low)/2
 		if arr[mid] == target {
-			return mid
+			return mid, true
 		}
 		if arr[mid] < target {
 			low = mid + 1
@@ -15,13 +18,22 @@ func binarySearch(arr []int, target int) int {
 			high = mid - 1
 		}
 	}
-	return -1
+	return 0, false
 }
 
 func main() {
-	arr := []int{1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23}
-	target := 17
-	result := binarySearch(arr, target)
+	slice := make([]int, rand.Intn(40)+20)
+	for i := range slice {
+		slice[i] = rand.Intn(15)
+	}
 
-	fmt.Println(result)
+	target := rand.Intn(15)
+	fmt.Println(slice, target)
+
+	result, ok := binarySearch(slice, target)
+	if !ok {
+		fmt.Println("nfound")
+	} else {
+		fmt.Println(result)
+	}
 }

@@ -35,8 +35,8 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done(): // отмена контекста
-				close(ch)
 				fmt.Println("pub stops")
+				close(ch)
 				return
 			default:
 				fmt.Println("nva")
