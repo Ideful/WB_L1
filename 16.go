@@ -1,3 +1,5 @@
+// реализовать qucik sort
+
 package main
 
 import (

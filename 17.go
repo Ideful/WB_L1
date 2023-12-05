@@ -1,3 +1,5 @@
+// реализовать binary search
+
 package main
 
 import (

@@ -1,45 +1,52 @@
+/*
+Разработать программу, которая будет последовательно отправлять значения в канал,
+а с другой стороны канала — читать.
+По истечению N секунд программа должна завершаться.
+*/
+
 package main
 
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
 func main() {
-	var n int
+	var n int // переменная, к-ая будет отвечать за время работы программы в секундах
 	if _, err := fmt.Scan(&n); err != nil {
 		return
 	}
 
-	ch := make(chan int)
+	ch := make(chan int) // создаем небуферизированный канал и таймер и примитив синхронизации wg
 	timer := time.NewTimer(time.Duration(n) * time.Second)
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-	go func() {
+	go func() { // функция посылает данные в канал и по истечении таймера выходит
+		defer wg.Done()
 		defer close(ch)
-		defer timer.Stop()
 		for {
 			select {
 			case <-timer.C:
-				fmt.Println("returning")
+				fmt.Println("\treturning")
 				return
 			default:
-				select {
-				case ch <- rand.Intn(100):
-				case <-timer.C:
-					fmt.Println("returning")
-					return
-				}
+				v := rand.Intn(40)
+				fmt.Printf("sending %d to channel\n", v)
+				ch <- v
 			}
 		}
 	}()
 
-	go func() {
+	go func() { // функция получает данные из канала пока есть возможность и печатает данные. как перестает - выходит
+		defer wg.Done()
 		for {
 			select {
 			case val, ok := <-ch:
 				if !ok {
-					fmt.Println("Channel closed. Exiting.")
+					fmt.Println("\tChannel closed. Exiting.")
 					return
 				}
 				fmt.Printf("Value from ch is %d\n", val)
@@ -47,7 +54,7 @@ func main() {
 		}
 	}()
 
-	<-timer.C
-	fmt.Println("exit")
-	time.Sleep(4 * time.Second)
+	// <-timer.C
+	wg.Wait()
+	fmt.Println("\texit")
 }

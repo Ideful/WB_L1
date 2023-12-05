@@ -1,3 +1,8 @@
+/*
+Разработать программу, которая перемножает, делит, складывает, вычитает
+две числовых переменных a,b, значение которых > 2^20.
+*/
+
 package main
 
 import (
@@ -22,6 +27,7 @@ func main() {
 	b := new(big.Int)
 	v1 := ""
 	v2 := ""
+	
 	fmt.Printf("please enter v1: ")
 	if !validate(v1, a) {
 		fmt.Println("Wrond data")

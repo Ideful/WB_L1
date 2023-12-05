@@ -1,3 +1,8 @@
+/*
+Разработать программу, которая в рантайме способна определить тип переменной:
+int, string, bool, channel из переменной типа interface{}.
+*/
+
 package main
 
 import (
@@ -25,4 +30,6 @@ func main() {
 	do(wg)
 	q := Qwe{}
 	do(q)
+	do(make(chan int))
+	do(true)
 }

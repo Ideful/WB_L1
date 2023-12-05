@@ -1,3 +1,5 @@
+// пример паттерна адаптер
+
 package main
 
 import "fmt"
